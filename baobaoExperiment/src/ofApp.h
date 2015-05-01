@@ -4,6 +4,7 @@
 #include "GLUT/glut.h"
 #include "ofxAutoReloadedShader.h"
 #include "MyVBO.h"
+#include "MyVboMesh.h"
 #include "ofxGui.h"
 #include "ofxCubeMap.h"
 
@@ -29,7 +30,8 @@ public:
     ofLight spotLight;
     ofLight directionalLight;
     ofMaterial material;
-    MyVBO myVBO;
+//    MyVBO myVBO;
+    MyVboMesh myVboMesh;
     ofFbo fbo;
     ofVec3f center;
     float radius;

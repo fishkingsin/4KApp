@@ -9,6 +9,7 @@ void ofApp::setup(){
     gui.add(spotLightColor.set("spotLight",ofColor(100,100,140),ofColor(0,0),ofColor(255,255)));
 
     gui.add(directionalLightColor.set("directionLight",ofColor(100,100,140),ofColor(0,0),ofColor(255,255)));
+    gui.add(myVboMesh.isShaderDirty.set("ReloadVBOmesh", true, false, true));
     gui.loadFromFile("settings.xml");
     fbo.allocate(ofGetWidth(), ofGetHeight());
     ofSetVerticalSync(true);
@@ -58,7 +59,8 @@ void ofApp::setup(){
     material.setSpecularColor(ofColor(255, 255, 255, 255));
 
     
-    myVBO.setup();
+//    myVBO.setup();
+    myVboMesh.setup();
     radius		= 180.f;
     center.set(ofGetWidth()*.5, ofGetHeight()*.5, 0);
     
@@ -94,7 +96,8 @@ void ofApp::update(){
     pointLight.setDiffuseColor( pointLightColor.get());
     spotLight.setDiffuseColor( spotLightColor.get());
     directionalLight.setDiffuseColor(directionalLightColor.get());
-    myVBO.update();
+//    myVBO.update();
+    myVboMesh.update();
     fbo.begin();
     ofEnableLighting();
     glEnable(GL_DEPTH_TEST);
@@ -116,7 +119,8 @@ void ofApp::update(){
     //    ofRotate(ofGetFrameNum()*0.5, 0, 1, 0);
     //    ofRotate(180, 1, 0, 0);
     
-    myVBO.draw();
+//    myVBO.draw();
+    myVboMesh.draw();
     //    glutSolidTeapot(ofGetWidth()*0.1);
     
     ofPopMatrix();
