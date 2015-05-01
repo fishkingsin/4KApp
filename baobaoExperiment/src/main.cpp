@@ -29,7 +29,7 @@ int main( ){
     // let's check if the current openGL context provides us with glDrawElementsInstanced
     // we do this after we have initialised our openGL context.
     ofAppGlutWindow window;
-    window.setGlutDisplayString("rgba double samples>=8");
+//    window.setGlutDisplayString("rgba double samples>=8");
     ofSetupOpenGL(&window,1280,720,OF_WINDOW);			// <-------- setup the GL context
     ofSetLogLevel(OF_LOG_VERBOSE);
     ostringstream extStr;

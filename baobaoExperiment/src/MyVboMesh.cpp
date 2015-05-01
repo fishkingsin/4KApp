@@ -10,11 +10,13 @@
 void MyVboMesh::setup()
 {
     model.loadModel("triangle.dae");
-//    ofBoxPrimitive tmpBox;
+//    ofPlanePrimitive plane;
+//    plane.set(10, 10, 4, 4);
+    ofBoxPrimitive tmpBox;
     // set the size to be 2 units.
-//    tmpBox.set(2);
-    
-    mVboBox = model.getMesh(0);
+    tmpBox.set(2);
+    mVboBox = tmpBox.getMesh();
+//    mVboBox = plane.getMesh();
     
     // load depth image
     ofDisableArbTex();
@@ -60,7 +62,7 @@ void MyVboMesh::update()
 
 void MyVboMesh::draw()
 {
-    ofEnableDepthTest();
+//    ofEnableDepthTest();
 
     ofSetColor(ofColor::white);
     
@@ -80,7 +82,7 @@ void MyVboMesh::draw()
     glDisable(GL_CULL_FACE);
     mShdInstanced->end();
     
-    ofDisableDepthTest();
+//    ofDisableDepthTest();
     
 
 }

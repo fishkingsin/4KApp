@@ -1,6 +1,13 @@
 <panel>
 	<pointLight>255, 3, 255, 255</pointLight>
 	<spotLight>3, 255, 255, 255</spotLight>
-	<directionLight>255, 255, 255, 255</directionLight>
+	<directionLight>42, 41, 40, 255</directionLight>
 <panel/>
+<UnknownName>1</UnknownName>
+<mode>0</mode>
+	<useShader>1</useShader>
+	<ReloadVBOmesh>1</ReloadVBOmesh>
+<useFbo>0</useFbo>
+	<Power>100</Power>
+	<Fequence>0.199</Fequence>
 </panel>

@@ -5,23 +5,40 @@ void ofApp::setup(){
     ofSetLogLevel(OF_LOG_VERBOSE);
     
     gui.setup("panel"); // most of the time you don't need a name but don't forget to call setup
+    gui.add(mode.set("mode", 0,0,2));
     gui.add(pointLightColor.set("pointLight",ofColor(100,100,140),ofColor(0,0),ofColor(255,255)));
+    pointLightColor.addListener(this,&ofApp::onPointLightColorChanged);
+    
     gui.add(spotLightColor.set("spotLight",ofColor(100,100,140),ofColor(0,0),ofColor(255,255)));
-
+    spotLightColor.addListener(this,&ofApp::onSpotLightColorChanged);
+    
     gui.add(directionalLightColor.set("directionLight",ofColor(100,100,140),ofColor(0,0),ofColor(255,255)));
+    directionalLightColor.addListener(this,&ofApp::onDirectionalLightColorChanged);
+    gui.add(useFbo.set("useFbo",false,true,false));
+    gui.add(useShader.set("useShader",false,true,false));
     gui.add(myVboMesh.isShaderDirty.set("ReloadVBOmesh", true, false, true));
+    
+    gui.add(myVBO.pow.set("Power",1,0.1,100));
+    gui.add(myVBO.feq.set("Fequence",1,0.1,10));
+    
     gui.loadFromFile("settings.xml");
-    fbo.allocate(ofGetWidth(), ofGetHeight());
+    ofFbo::Settings settings;
+//    settings.depthStencilAsTexture = true;
+
+    settings.width = ofGetWidth();
+    settings.height = ofGetHeight();
+    fbo.allocate(settings);
+
     ofSetVerticalSync(true);
     ofSetFrameRate(60);
-    ofEnableDepthTest();
+
     ofSetSmoothLighting(true);
-    ofEnableAlphaBlending();
-    ofEnableAntiAliasing();
+
+
     ofEnableArbTex();
     ofEnableSmoothing();
     ofEnableSeparateSpecularLight();
-//    shader.load("shader");
+    //    shader.load("shader");
     
     // Point lights emit light in all directions //
     // set the diffuse color, color reflected from the light source //
@@ -57,9 +74,9 @@ void ofApp::setup(){
     material.setShininess( 128 );
     // the light highlight of the material //
     material.setSpecularColor(ofColor(255, 255, 255, 255));
-
     
-//    myVBO.setup();
+    
+    myVBO.setup();
     myVboMesh.setup();
     radius		= 180.f;
     center.set(ofGetWidth()*.5, ofGetHeight()*.5, 0);
@@ -92,20 +109,34 @@ void ofApp::update(){
     spotLight.setOrientation( ofVec3f( 0, cos(ofGetElapsedTimef()) * RAD_TO_DEG, 0) );
     spotLight.setPosition( mouseX, mouseY, 200);
     
+    switch (mode) {
+        case 0:
+            myVBO.update();
+            break;
+        case 1:
+            myVboMesh.update();
+        default:
+            break;
+    }
     
-    pointLight.setDiffuseColor( pointLightColor.get());
-    spotLight.setDiffuseColor( spotLightColor.get());
-    directionalLight.setDiffuseColor(directionalLightColor.get());
-//    myVBO.update();
-    myVboMesh.update();
-    fbo.begin();
+}
+
+//--------------------------------------------------------------
+void ofApp::draw(){
+    ofBackground(0);
+    if(useFbo)
+    {
+        fbo.begin();
+    }
     ofEnableLighting();
+
     glEnable(GL_DEPTH_TEST);
     cubemap.bind();
-    
-    shader.begin();
-    shader.setUniform1i("cubeMap", 0);
-    shader.setUniformTexture("bumpmap", bumpmap, 1);
+    if (useShader) {
+        shader.begin();
+        shader.setUniform1i("cubeMap", 0);
+        shader.setUniformTexture("bumpmap", bumpmap, 1);
+    }
     
     material.begin();
     pointLight.enable();
@@ -115,32 +146,35 @@ void ofApp::update(){
     ofClear(0, 0, 0);
     ofPushMatrix();
     
-//    ofTranslate(-ofGetWidth()*0.5, -ofGetHeight()*0.5,0);
-    //    ofRotate(ofGetFrameNum()*0.5, 0, 1, 0);
-    //    ofRotate(180, 1, 0, 0);
-    
-//    myVBO.draw();
-    myVboMesh.draw();
-    //    glutSolidTeapot(ofGetWidth()*0.1);
+    switch (mode) {
+        case 0:
+            myVBO.draw();
+            break;
+        case 1:
+            myVboMesh.draw();
+            break;
+        case 2:
+            glutSolidTeapot(ofGetWidth()*0.1);
+        break;
+    }
     
     ofPopMatrix();
     cam.end();
-    shader.end();
-    
+    if (useShader) {
+        shader.end();
+    }
     cubemap.unbind();
     glDisable(GL_DEPTH_TEST);
+
     material.end();
     // turn off lighting //
     ofDisableLighting();
-
-    fbo.end();
+    if(useFbo)
+    {
+        fbo.end();
     
-}
-
-//--------------------------------------------------------------
-void ofApp::draw(){
-    ofBackground(0);
-    fbo.draw(0,0,ofGetWidth(),ofGetHeight());
+        fbo.draw(0,0,ofGetWidth(),ofGetHeight());
+    }
     if(!isHiddenGui)
     {
         gui.draw();
@@ -151,7 +185,7 @@ void ofApp::draw(){
 void ofApp::keyPressed(int key){
     switch(key)
     {
-            case 'f':
+        case 'f':
             ofToggleFullscreen();
             break;
         case 's':
@@ -165,40 +199,64 @@ void ofApp::keyPressed(int key){
 
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key){
-
+    
 }
 
 //--------------------------------------------------------------
 void ofApp::mouseMoved(int x, int y ){
-
+    
 }
 
 //--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button){
-
+    
 }
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
-
+    
 }
 
 //--------------------------------------------------------------
 void ofApp::mouseReleased(int x, int y, int button){
-
+    
 }
 
 //--------------------------------------------------------------
 void ofApp::windowResized(int w, int h){
-    fbo.allocate(w, h);
+    //    fbo.allocate(w, h);
 }
 
 //--------------------------------------------------------------
 void ofApp::gotMessage(ofMessage msg){
+    
+}
+
+//--------------------------------------------------------------
+void ofApp::dragEvent(ofDragInfo dragInfo){
+    
+}
+
+
+void ofApp::onPointLightColorChanged(ofColor& pointLightColor){
+
+    pointLight.setDiffuseColor( pointLightColor);
 
 }
 
 //--------------------------------------------------------------
-void ofApp::dragEvent(ofDragInfo dragInfo){ 
+
+void ofApp::onSpotLightColorChanged(ofColor& spotLightColor){
+    spotLight.setDiffuseColor( spotLightColor);
+
 
 }
+
+//--------------------------------------------------------------
+
+void ofApp::onDirectionalLightColorChanged(ofColor& directionalLightColor){
+    directionalLight.setDiffuseColor(directionalLightColor);
+}
+
+//--------------------------------------------------------------
+

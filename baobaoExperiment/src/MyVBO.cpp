@@ -36,14 +36,14 @@ void addFace(vector<ofVec3f> &pos,vector<ofFloatColor> &color,vector<ofVec3f> &n
 }
 //--------------------------------------------------------------
 void MyVBO::setup(){
-    ofEnableAlphaBlending();
+//    ofEnableAlphaBlending();
     total = 0;
     float width = ofGetWidth();
     float height = ofGetHeight();
     int H_width = 0;//width*0.5;
     int H_height = 0;//height*0.5;
 
-    int step = 100;
+    int step = 90;
     
     WIDTH = width*1.0/step;
     HEIGHT = height*1.0/step;
@@ -51,7 +51,7 @@ void MyVBO::setup(){
 
     int row = 0;
     int col = 0;
-    float space = 0.2;
+    float space = 0;
     float step_back_width = space*(width/step)+width*0.5;
     float step_back_height = space*(height/step)+height*0.5;
 //    vboMesh.setMode(OF_PRIMITIVE_TRIANGLES);
@@ -93,20 +93,20 @@ void MyVBO::update(){
     
     float count = 0;
     float count2 = 0;
-    t = ofGetElapsedTimef()*0.7;
+    t = ofGetElapsedTimef()*feq;
     for(int i = 0 ; i< total ;i+=3)
     {
         ofVec3f v1 = ofVec3f(vert[i].x,
                 vert[i].y,
-                ofSignedNoise(t, vert[i].y,vert[i].x)*50);
+                ofSignedNoise(t, vert[i].y,vert[i].x)*pow);
 
         ofVec3f v2 = ofVec3f(vert[i+1].x,
                              vert[i+1].y,
-                             ofSignedNoise(t, vert[i+1].y,vert[i+1].x)*50);
+                             ofSignedNoise(t, vert[i+1].y,vert[i+1].x)*pow);
 
         ofVec3f v3 = ofVec3f(vert[i+2].x,
                              vert[i+2].y,
-                             ofSignedNoise(t, vert[i+2].y,vert[i+2].x)*50);
+                             ofSignedNoise(t, vert[i+2].y,vert[i+2].x)*pow);
 
 //        float a = sin((count-=1.1)+ofGetElapsedTimef()+i)*10;
 //        float a2 = cos((count2+=0.07)+i)*20;//+ofGetElapsedTimef());
@@ -126,13 +126,7 @@ void MyVBO::update(){
 
 //--------------------------------------------------------------
 void MyVBO::draw(){
-    ofBackground(0);
-    ofPushMatrix();
-    ofEnableAlphaBlending();
-    ofSetColor(255, 255, 255);
-    
-    
-    
+    ofEnableDepthTest();
     vboMesh.bind();
     vboMesh.updateVertexData(pos.data(), total);
     vboMesh.updateColorData(color.data(), total);
@@ -145,7 +139,5 @@ void MyVBO::draw(){
     }
     
     vboMesh.unbind();
-    
-    ofPopMatrix();
-    
+    ofDisableDepthTest();
 }

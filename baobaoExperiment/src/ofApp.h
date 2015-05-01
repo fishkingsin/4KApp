@@ -24,13 +24,15 @@ public:
     void windowResized(int w, int h);
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
-    
+    void onPointLightColorChanged(ofColor& pointLightColor);
+    void onSpotLightColorChanged(ofColor& spotLightColor);
+    void onDirectionalLightColorChanged(ofColor& directionalLightColor);
     ofEasyCam cam;
     ofLight pointLight;
     ofLight spotLight;
     ofLight directionalLight;
     ofMaterial material;
-//    MyVBO myVBO;
+    MyVBO myVBO;
     MyVboMesh myVboMesh;
     ofFbo fbo;
     ofVec3f center;
@@ -40,6 +42,9 @@ public:
     ofParameter<ofColor>pointLightColor;
     ofParameter<ofColor>spotLightColor;
     ofParameter<ofColor>directionalLightColor;
+    ofParameter<bool>useShader;
+    ofParameter<bool>useFbo;
+    ofParameter<int>mode;
     
     ofxAutoReloadedShader shader;
     ofxCubeMap cubemap;
