@@ -3,3 +3,6 @@ ofxGui
 ofxXmlSettings
 ofxAutoReloadedShader
 ofxCubeMap
+ofxAssimpModelLoader
+ofxGLSLMaterial
+ofxPostProcessing

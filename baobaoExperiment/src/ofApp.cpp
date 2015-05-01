@@ -112,7 +112,7 @@ void ofApp::update(){
     ofClear(0, 0, 0);
     ofPushMatrix();
     
-    ofTranslate(-ofGetWidth()*0.5, -ofGetHeight()*0.5,0);
+//    ofTranslate(-ofGetWidth()*0.5, -ofGetHeight()*0.5,0);
     //    ofRotate(ofGetFrameNum()*0.5, 0, 1, 0);
     //    ofRotate(180, 1, 0, 0);
     
