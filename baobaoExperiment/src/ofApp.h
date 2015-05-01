@@ -1,5 +1,5 @@
 #pragma once
-
+// #define USE_PROGRAMMABLE_GL
 #include "ofMain.h"
 #include "GLUT/glut.h"
 #include "ofxAutoReloadedShader.h"

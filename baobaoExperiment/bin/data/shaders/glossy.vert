@@ -1,21 +1,14 @@
-uniform vec3 fvEyePosition;
-
-varying vec3 ViewDirection;
-varying vec3 Normal;
-
-
-varying vec3 vN;
-varying vec3 v;
-
-void main( void )
+#version 150
+ 
+uniform mat4 viewMatrix, projMatrix;
+ 
+in vec4 position;
+in vec3 color;
+ 
+out vec3 Color;
+ 
+void main()
 {
-   gl_Position = ftransform();
-   vec4 fvObjectPosition = gl_ModelViewMatrix * gl_Vertex;
-
-   ViewDirection  = fvEyePosition - fvObjectPosition.xyz;
-
-   v = vec3(gl_ModelViewMatrix * gl_Vertex);       
-   vN = normalize(gl_NormalMatrix * gl_Normal);
-
-   Normal         = gl_NormalMatrix * gl_Normal;
+    Color = color;
+    gl_Position = projMatrix * viewMatrix * position ;
 }

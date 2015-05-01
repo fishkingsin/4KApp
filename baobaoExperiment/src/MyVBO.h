@@ -23,6 +23,7 @@ private:
     vector<ofVec3f> pos;//[GRID_WIDTH*GRID_HEIGHT*LENGTH];
     vector<ofVec3f> normal;//[GRID_WIDTH*GRID_HEIGHT*LENGTH];
     vector<ofFloatColor> color;//[GRID_WIDTH*GRID_HEIGHT*LENGTH];
+    vector<ofVec2f> tex_coord;//[GRID_WIDTH*GRID_HEIGHT*LENGTH];
     ofVec3f center;
     int total;
     int WIDTH;

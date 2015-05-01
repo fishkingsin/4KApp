@@ -10,7 +10,7 @@ void ofApp::setup(){
 
     gui.add(directionalLightColor.set("directionLight",ofColor(100,100,140),ofColor(0,0),ofColor(255,255)));
     gui.loadFromFile("settings.xml");
-    fbo.allocate(ofGetWidth()*2, ofGetHeight()*2);
+    fbo.allocate(ofGetWidth(), ofGetHeight());
     ofSetVerticalSync(true);
     ofSetFrameRate(60);
     ofEnableDepthTest();
@@ -62,8 +62,14 @@ void ofApp::setup(){
     radius		= 180.f;
     center.set(ofGetWidth()*.5, ofGetHeight()*.5, 0);
     
-    
+#ifdef USE_PROGRAMMABLE_GL
+    // if we are using programmable GL, we load the GLSL version 150 shader pair.
     shader.load("shaders/glossy");
+#else
+    // if we are using fixed function GL, we load the GLSL version 120 shader pair.
+    shader.load("shaders/glossy_120");
+#endif
+    
     cubemap.loadImages("positive_x.png",
                        "negative_x.png",
                        "positive_y.png",
@@ -96,6 +102,7 @@ void ofApp::update(){
     shader.begin();
     shader.setUniform1i("cubeMap", 0);
 
+    
     material.begin();
     pointLight.enable();
     spotLight.enable();
