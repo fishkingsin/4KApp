@@ -9,6 +9,6 @@ out vec3 Color;
  
 void main()
 {
-    Color = color;
+    Color = vec3(1.0, 1.0, 1.0);
     gl_Position = projMatrix * viewMatrix * position ;
 }

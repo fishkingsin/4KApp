@@ -39,5 +39,5 @@ class ofApp : public ofBaseApp{
     
     ofxAutoReloadedShader shader;
     ofxCubeMap cubemap;
-
+    ofImage bumpmap;
 };

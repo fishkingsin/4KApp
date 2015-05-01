@@ -76,8 +76,9 @@ void ofApp::setup(){
                        "negative_y.png",
                        "positive_z.png",
                        "negative_z.png");
-
-
+    ofDisableArbTex();
+    bumpmap.loadImage("bumps.png");
+    ofEnableArbTex();
 }
 
 //--------------------------------------------------------------
@@ -101,7 +102,7 @@ void ofApp::update(){
     
     shader.begin();
     shader.setUniform1i("cubeMap", 0);
-
+    shader.setUniformTexture("bumpmap", bumpmap, 1);
     
     material.begin();
     pointLight.enable();
@@ -111,7 +112,7 @@ void ofApp::update(){
     ofClear(0, 0, 0);
     ofPushMatrix();
     
-    ofTranslate(-ofGetWidth()*0.5, -ofGetHeight()*0.5,0);
+//    ofTranslate(-ofGetWidth()*0.5, -ofGetHeight()*0.5,0);
     //    ofRotate(ofGetFrameNum()*0.5, 0, 1, 0);
     //    ofRotate(180, 1, 0, 0);
     
@@ -134,6 +135,7 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+    ofBackground(0);
     fbo.draw(0,0,ofGetWidth(),ofGetHeight());
     if(!isHiddenGui)
     {

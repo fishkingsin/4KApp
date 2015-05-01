@@ -17,17 +17,21 @@ public:
     void setup();
     void update();
     void draw();
+    
+    // helper functions
+    void addFace(ofMesh& mesh, ofVec3f a, ofVec3f b, ofVec3f c);
+    void addFace(ofMesh& mesh, ofVec3f a, ofVec3f b, ofVec3f c, ofVec3f d);
+    void addTexCoords(ofMesh& mesh, ofVec2f a, ofVec2f b, ofVec2f c);
+    void addTexCoords(ofMesh& mesh, ofVec2f a, ofVec2f b, ofVec2f c, ofVec2f d);
+//    void addNormals(ofMesh& mesh, ofVec3f a, ofVec3f b, ofVec3f c);
+//    void addNormal(ofMesh& mesh, ofVec3f a, ofVec3f b, ofVec3f c, ofVec3f d);
+    ofVec3f getVertexFromImg(ofImage& img, int x, int y);
 private:
     
-    ofVbo vbo;
-    vector<ofVec3f> pos;//[GRID_WIDTH*GRID_HEIGHT*LENGTH];
-    vector<ofVec3f> normal;//[GRID_WIDTH*GRID_HEIGHT*LENGTH];
-    vector<ofFloatColor> color;//[GRID_WIDTH*GRID_HEIGHT*LENGTH];
-    vector<ofVec2f> tex_coord;//[GRID_WIDTH*GRID_HEIGHT*LENGTH];
-    ofVec3f center;
-    int total;
-    int WIDTH;
-    int HEIGHT;
-    int space;
+    ofMesh mesh;
+    ofVboMesh vboMesh;
+    ofImage img;
+    
+
 };
 #endif /* defined(__baobaoExperiment__MyVBO__) */

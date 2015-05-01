@@ -7,135 +7,158 @@
 //
 
 #include "MyVBO.h"
-void addFace(vector<ofVec3f> &pos,vector<ofFloatColor> &color,vector<ofVec3f> &normal,vector<ofVec2f> &tex_coord, ofVec3f a, ofVec3f b, ofVec3f c) {
+//--------------------------------------------------------------
+void MyVBO::addFace(ofMesh& mesh, ofVec3f a, ofVec3f b, ofVec3f c) {
+    mesh.addVertex(a);
+    mesh.addVertex(b);
+    mesh.addVertex(c);
     
     ofVec3f _normal = ((b - a).cross(c - a)).normalize();
-    ofFloatColor _color = ofFloatColor::fromHsb(ofRandom(0.5,0.9),1.0,1.0);
-    pos.push_back(a);
-    pos.push_back(b);
-    pos.push_back(c);
     
-    color.push_back(_color);
-    color.push_back(_color);
-    color.push_back(_color);
-    
-    normal.push_back(_normal);
-    normal.push_back(_normal);
-    normal.push_back(_normal);
-    
-    tex_coord.push_back(a);
-    tex_coord.push_back(b);
-    tex_coord.push_back(c);
+    mesh.addNormal(_normal);
+    mesh.addNormal(_normal);
+    mesh.addNormal(_normal);
 }
 
 //--------------------------------------------------------------
-void addFace(vector<ofVec3f> &pos,vector<ofFloatColor> &color,vector<ofVec3f> &normal,vector<ofVec2f> &tex_coord, ofVec3f a, ofVec3f b, ofVec3f c, ofVec3f d) {
-    addFace(pos,color,normal, tex_coord, a, b, c);
-    addFace(pos,color,normal, tex_coord, a, c, d);
+void MyVBO::addFace(ofMesh& mesh, ofVec3f a, ofVec3f b, ofVec3f c, ofVec3f d) {
+    addFace(mesh, a, b, c);
+    addFace(mesh, a, c, d);
+}
+
+//--------------------------------------------------------------
+void MyVBO::addTexCoords(ofMesh& mesh, ofVec2f a, ofVec2f b, ofVec2f c) {
+    mesh.addTexCoord(a);
+    mesh.addTexCoord(b);
+    mesh.addTexCoord(c);
+}
+
+//--------------------------------------------------------------
+void MyVBO::addTexCoords(ofMesh& mesh, ofVec2f a, ofVec2f b, ofVec2f c, ofVec2f d) {
+    addTexCoords(mesh, a, b, c);
+    addTexCoords(mesh, a, c, d);
+}
+
+////--------------------------------------------------------------
+//void MyVBO::addNormals(ofMesh& mesh, ofVec3f a, ofVec3f b, ofVec3f c) {
+//    ofVec3f _normal = ((b - a).cross(c - a)).normalize();
+//
+//    mesh.addNormal(_normal);
+//    mesh.addNormal(_normal);
+//    mesh.addNormal(_normal);
+//}
+//
+////--------------------------------------------------------------
+//void MyVBO::addNormal(ofMesh& mesh, ofVec3f a, ofVec3f b, ofVec3f c, ofVec3f d) {
+//    addNormals(mesh, a, b, c);
+//    addNormals(mesh, a, c, d);
+//}
+
+/*
+ The 3d data is stored in an image where alpha represents depth. Here we create
+ a 3d point from the current x,y image position.
+ */
+//--------------------------------------------------------------
+ofVec3f MyVBO::getVertexFromImg(ofImage& img, int x, int y) {
+    ofColor color = img.getColor(x, y);
+    if(color.a > 0) {
+        float z = ofMap(color.a, 0, 255, 0, 100);
+        return ofVec3f(x - img.getWidth() / 2, y - img.getHeight() / 2, z);
+    } else {
+        return ofVec3f(0, 0, 0);
+    }
 }
 //--------------------------------------------------------------
 void MyVBO::setup(){
-    ofEnableAlphaBlending();
-    total = 0;
-    int width = ofGetWidth();
-    int height = ofGetHeight();
-    int step = 160;
     
-    WIDTH = width*1.0/step;
-    HEIGHT = height*1.0/step;
+    img.loadImage("linzer.png");
     
+    // OF_PRIMITIVE_TRIANGLES means every three vertices create a triangle
+    mesh.setMode(OF_PRIMITIVE_TRIANGLES);
+    int skip = 10;	// this controls the resolution of the mesh
     
-    int row = 0;
-    int col = 0;
-    for(int y = 0 ; y < height ;y+=step)
-    {
-        row++;
-        for (int x = 0; x < width; x+=step)
-        {
+    int width = img.getWidth();
+    int height = img.getHeight();
+    
+    ofVec2f imageSize(width,height);
+    
+    ofVec3f zero(0, 0, 0);
+    for(int y = 0; y < height - skip; y += skip) {
+        for(int x = 0; x < width - skip; x += skip) {
+            /*
+             To construct a mesh, we have to build a collection of quads made up of
+             the current pixel, the one to the right, to the bottom right, and
+             beneath. These are called nw, ne, se and sw. To get the texture coords
+             we need to use the actual image indices.
+             */
+            ofVec3f nw = getVertexFromImg(img, x, y);
+            ofVec3f ne = getVertexFromImg(img, x + skip, y);
+            ofVec3f sw = getVertexFromImg(img, x, y + skip);
+            ofVec3f se = getVertexFromImg(img, x + skip, y + skip);
+            ofVec2f nwi(x, y);
+            ofVec2f nei(x + skip, y);
+            ofVec2f swi(x, y + skip);
+            ofVec2f sei(x + skip, y + skip);
             
-            
-            ofVec3f nw = ofVec3f( x, y , 0);
-            ofVec3f ne = ofVec3f( x + step, y, 0);
-            ofVec3f sw = ofVec3f( x, y + step, 0);
-            ofVec3f se = ofVec3f( x + step, y + step, 0);
-            if( (col%2==1 && row%2==0) || (col%2==0 && row%2==1) )
-            {
-                nw = nw.getRotated(90,ofVec3f( x+step*0.5, y + step*0.5, 0), ofVec3f(0,0,1));
-                ne = ne.getRotated(90,ofVec3f( x+step*0.5, y + step*0.5, 0), ofVec3f(0,0,1));
-                sw = sw.getRotated(90,ofVec3f( x+step*0.5, y + step*0.5, 0), ofVec3f(0,0,1));
-                se = se.getRotated(90,ofVec3f( x+step*0.5, y + step*0.5, 0), ofVec3f(0,0,1));
+            // ignore any zero-data (where there is no depth info)
+            if(nw != zero && ne != zero && sw != zero && se != zero) {
+                addFace(mesh, nw, ne, se, sw);
+//                addNormal(mesh, nw, ne, se, sw);
+                
+                
+                // Normalize our texture coordinates if normalized
+                // texture coordinates are currently enabled.
+//                if(ofGetUsingNormalizedTexCoords())
+                {
+                    nwi /= imageSize;
+                    nei /= imageSize;
+                    sei /= imageSize;
+                    swi /= imageSize;
+                }
+                
+                addTexCoords(mesh, nwi, nei, sei, swi);
             }
-//            else if( row%2==0 )
-//            {
-//                nw = nw.getRotated(180,ofVec3f( x+step*0.5, y + step*0.5, 0), ofVec3f(0,0,1));
-//                ne = ne.getRotated(180,ofVec3f( x+step*0.5, y + step*0.5, 0), ofVec3f(0,0,1));
-//                sw = sw.getRotated(180,ofVec3f( x+step*0.5, y + step*0.5, 0), ofVec3f(0,0,1));
-//                se = se.getRotated(180,ofVec3f( x+step*0.5, y + step*0.5, 0), ofVec3f(0,0,1));
-//            }
-//            else if( row%2==1 )
-//            {
-//                nw = nw.getRotated(270,ofVec3f( x+step*0.5, y + step*0.5, 0), ofVec3f(0,0,1));
-//                ne = ne.getRotated(270,ofVec3f( x+step*0.5, y + step*0.5, 0), ofVec3f(0,0,1));
-//                sw = sw.getRotated(270,ofVec3f( x+step*0.5, y + step*0.5, 0), ofVec3f(0,0,1));
-//                se = se.getRotated(270,ofVec3f( x+step*0.5, y + step*0.5, 0), ofVec3f(0,0,1));
-//            }
-            addFace(pos,color,normal,tex_coord, nw,ne,se,sw);
-            total+=6;
-            col++ ;
         }
     }
-    vbo.setVertexData(pos.data(), total, GL_DYNAMIC_DRAW);
     
-    vbo.setColorData(color.data(), total, GL_DYNAMIC_DRAW);
-    vbo.setNormalData(normal.data(), total, GL_DYNAMIC_DRAW);
-    vbo.setTexCoordData(tex_coord.data(), total, GL_DYNAMIC_DRAW);
+    vboMesh = mesh;
 }
 
 //--------------------------------------------------------------
 void MyVBO::update(){
     
-    float count = 0;
-    float count2 = 0;
-    for(int i = 0 ; i< total ;i+=3)
-    {
-        float a = sin((count-=1.1)+ofGetElapsedTimef())*10;
-        float a2 = cos((count2+=0.07))*20;//+ofGetElapsedTimef());
-        
-        pos[i].z = a;
-        pos[i+1].z = a2;
-        pos[i+2].z = a;
-        
-        ofVec3f _normal = ((pos[i+1] - pos[i]).cross(pos[i+2] - pos[i])).normalize();
-        
-        normal[i] = _normal;
-        normal[i+1] = _normal;
-        normal[i+2] = _normal;
-    }
+    
     
 }
 
 //--------------------------------------------------------------
 void MyVBO::draw(){
-    ofBackground(0);
-    ofPushMatrix();
-    ofEnableAlphaBlending();
-    ofSetColor(255, 255, 255);
+    ofEnableDepthTest();
     
+//    ofRotateY(ofGetElapsedTimef() * 30); // slowly rotate the model
     
+    ofScale(1, -1, 1); // make y point down
+    ofScale(.5, .5, .5); // make everything a bit smaller
     
-    vbo.bind();
-    vbo.updateVertexData(pos.data(), total);
-    vbo.updateColorData(color.data(), total);
-    vbo.updateNormalData(normal.data(), total);
-    
-    
-    for(int i = 0 ; i< total ;i+=3)
-    {
-        vbo.draw(GL_TRIANGLE_FAN, i,3);
+    img.bind(); // bind the image to begin texture mapping
+    int n = 5; // make a 5x5 grid
+    ofVec2f spacing(img.getWidth(), img.getHeight()); // spacing between meshes
+    ofTranslate(-spacing.x * n / 2, -spacing.y * n / 2, 0); // center the grid
+    for(int i = 0; i < n; i++) { // loop through the rows
+        for(int j = 0; j < n; j++) { // loop through the columns
+            ofPushMatrix();
+            ofTranslate(i * spacing.x, j * spacing.y); // position the current mesh
+            ofTranslate(spacing.x / 2, spacing.y / 2); // center the mesh
+            if(ofGetKeyPressed()) {
+                vboMesh.draw(); // draw a vboMesh (faster) when a key is pressed
+            } else {
+                mesh.draw(); // draw an ofMesh (slower) when no key is pressed
+            }
+            ofPopMatrix();
+        }
     }
+    img.unbind();
     
-    vbo.unbind();
-    
-    ofPopMatrix();
+    ofDisableDepthTest();
     
 }
