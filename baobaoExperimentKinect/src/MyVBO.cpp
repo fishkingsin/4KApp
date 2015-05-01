@@ -39,41 +39,42 @@ void MyVBO::setup(){
     total = 0;
     int width = ofGetWidth();
     int height = ofGetHeight();
-    int H_width = 0;//width*0.5;
-    int H_height = 0;//height*0.5;
+    int H_width = width*0.5;
+    int H_height = height*0.5;
 
-    int step = 100;
+    int step = 160;
     
     WIDTH = width*1.0/step;
     HEIGHT = height*1.0/step;
     
-
+    
     int row = 0;
     int col = 0;
-    int space = 0;
-//    vboMesh.setMode(OF_PRIMITIVE_TRIANGLES);
-    for(int _y = 0 ; _y < height ;_y+=step)
+    for(int y = 0 ; y < height ;y+=step)
     {
         row++;
-        for (int _x = 0; _x < width; _x+=step)
+        for (int x = 0; x < width; x+=step)
         {
-
-            float x = _x;
-            float y = _y;
             
-            ofVec3f nw = ofVec3f( x+space , y+space , 0);
-            ofVec3f ne = ofVec3f( x-space + step  , y+space , 0);
-            ofVec3f sw = ofVec3f( x+space , y + step -space, 0);
-            ofVec3f se = ofVec3f( x-space + step , y + step -space, 0);
-            if( (col%2==0 && row%2==0) ||(col%2==0 && row%2==1) )
+            
+            ofVec3f nw = ofVec3f( x-H_width, y-H_height , 0);
+            ofVec3f ne = ofVec3f( x + step -H_width, y-H_height, 0);
+            ofVec3f sw = ofVec3f( x-H_width, y + step-H_height, 0);
+            ofVec3f se = ofVec3f( x-H_width + step, y + step-H_height, 0);
+            if( (col%2==1 && row%2==0) || (col%2==0 && row%2==1) )
             {
-                nw = nw.getRotated(90,ofVec3f( x+step*0.5, y + step*0.5, 0), ofVec3f(0,0,1));
-                ne = ne.getRotated(90,ofVec3f( x+step*0.5, y + step*0.5, 0), ofVec3f(0,0,1));
-                sw = sw.getRotated(90,ofVec3f( x+step*0.5, y + step*0.5, 0), ofVec3f(0,0,1));
-                se = se.getRotated(90,ofVec3f( x+step*0.5, y + step*0.5, 0), ofVec3f(0,0,1));
-                
-                
+                nw = nw.getRotated(90,ofVec3f( x+step*0.5-H_width, y + step*0.5-H_height, 0), ofVec3f(0,0,1));
+                ne = ne.getRotated(90,ofVec3f( x+step*0.5-H_width, y + step*0.5-H_height, 0), ofVec3f(0,0,1));
+                sw = sw.getRotated(90,ofVec3f( x+step*0.5-H_width, y + step*0.5-H_height, 0), ofVec3f(0,0,1));
+                se = se.getRotated(90,ofVec3f( x+step*0.5-H_width, y + step*0.5-H_height, 0), ofVec3f(0,0,1));
             }
+//            else if( row%2==0 )
+//            {
+//                nw = nw.getRotated(180,ofVec3f( x+step*0.5, y + step*0.5, 0), ofVec3f(0,0,1));
+//                ne = ne.getRotated(180,ofVec3f( x+step*0.5, y + step*0.5, 0), ofVec3f(0,0,1));
+//                sw = sw.getRotated(180,ofVec3f( x+step*0.5, y + step*0.5, 0), ofVec3f(0,0,1));
+//                se = se.getRotated(180,ofVec3f( x+step*0.5, y + step*0.5, 0), ofVec3f(0,0,1));
+//            }
 //            else if( row%2==1 )
 //            {
 //                nw = nw.getRotated(270,ofVec3f( x+step*0.5, y + step*0.5, 0), ofVec3f(0,0,1));
@@ -86,11 +87,11 @@ void MyVBO::setup(){
             col++ ;
         }
     }
-    vboMesh.setVertexData(pos.data(), total, GL_DYNAMIC_DRAW);
+    vbo.setVertexData(pos.data(), total, GL_DYNAMIC_DRAW);
     
-    vboMesh.setColorData(color.data(), total, GL_DYNAMIC_DRAW);
-    vboMesh.setNormalData(normal.data(), total, GL_DYNAMIC_DRAW);
-    vboMesh.setTexCoordData(tex_coord.data(), total, GL_DYNAMIC_DRAW);
+    vbo.setColorData(color.data(), total, GL_DYNAMIC_DRAW);
+    vbo.setNormalData(normal.data(), total, GL_DYNAMIC_DRAW);
+    vbo.setTexCoordData(tex_coord.data(), total, GL_DYNAMIC_DRAW);
 }
 
 //--------------------------------------------------------------
@@ -100,8 +101,8 @@ void MyVBO::update(){
     float count2 = 0;
     for(int i = 0 ; i< total ;i+=3)
     {
-        float a = sin((count-=1.1)+ofGetElapsedTimef()+i)*10;
-        float a2 = cos((count2+=0.07)+i)*20;//+ofGetElapsedTimef());
+        float a = sin((count-=1.1)+ofGetElapsedTimef())*100;
+        float a2 = cos((count2+=0.07))*200;//+ofGetElapsedTimef());
         
         pos[i].z = a;
         pos[i+1].z = a2;
@@ -125,18 +126,18 @@ void MyVBO::draw(){
     
     
     
-    vboMesh.bind();
-    vboMesh.updateVertexData(pos.data(), total);
-    vboMesh.updateColorData(color.data(), total);
-    vboMesh.updateNormalData(normal.data(), total);
+    vbo.bind();
+    vbo.updateVertexData(pos.data(), total);
+    vbo.updateColorData(color.data(), total);
+    vbo.updateNormalData(normal.data(), total);
     
     
     for(int i = 0 ; i< total ;i+=3)
     {
-        vboMesh.draw(GL_TRIANGLE_STRIP, i,3);
+        vbo.draw(GL_TRIANGLE_FAN, i,3);
     }
     
-    vboMesh.unbind();
+    vbo.unbind();
     
     ofPopMatrix();
     

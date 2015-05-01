@@ -1,6 +1,6 @@
 <panel>
-	<pointLight>165, 32, 28, 255</pointLight>
-	<spotLight>123, 115, 248, 255</spotLight>
+	<pointLight>255, 3, 255, 255</pointLight>
+	<spotLight>3, 255, 255, 255</spotLight>
 	<directionLight>255, 255, 255, 255</directionLight>
 <panel/>
 </panel>
