@@ -22,7 +22,9 @@ void ofApp::setup(){
     gui.add(myVBO.feq.set("Fequence",1,0.1,10));
     gui.add(myVBO.wave_density.set("WaveDensity",0.005,0.0001,0.1));
     gui.add(myVBO.noise_density.set("NoiseDensity",0.005,0.0000,0.1));
-    
+    gui.add(myVBO.min_hue.set("MinHue",0,0,1.0));
+    gui.add(myVBO.max_hue.set("MaxHue",0,0,1.0));
+        gui.add(myVBO.reload_color.set("ReloadColor",0,0,1.0));
     gui.loadFromFile("settings.xml");
     ofFbo::Settings settings;
 //    settings.depthStencilAsTexture = true;
@@ -102,6 +104,7 @@ void ofApp::setup(){
     ofEnableArbTex();
     
     shaderToy.setup();
+    cam.setVFlip(true);
 }
 
 //--------------------------------------------------------------
@@ -146,10 +149,11 @@ void ofApp::draw(){
     pointLight.enable();
     spotLight.enable();
     directionalLight.enable();
+
     cam.begin();
-    ofClear(0, 0, 0);
+    
     ofPushMatrix();
-    ofRotate(180, 0, 0, 1);
+//    ofRotate(180, 0, 0, 1);
     switch (mode) {
         case 0:
             myVBO.draw();

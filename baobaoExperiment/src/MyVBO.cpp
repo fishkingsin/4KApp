@@ -148,6 +148,17 @@ void MyVBO::update(){
         normal[i+1] = _normal;
         normal[i+2] = _normal;
     }
+    if(reload_color)
+    {
+        for(int i = 0 ; i< total ;i+=3)
+        {
+            ofFloatColor _color = ofFloatColor::fromHsb(ofRandom(min_hue,max_hue),1.0,1.0);
+            color[i] = _color;
+            color[i+1] = _color;
+            color[i+2] = _color;
+        }
+        reload_color = false;
+    }
     
 }
 

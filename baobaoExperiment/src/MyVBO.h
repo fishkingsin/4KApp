@@ -21,6 +21,11 @@ public:
     ofParameter <float> pow;
     ofParameter <float> wave_density;
     ofParameter <float> noise_density;
+    
+    ofParameter <float> max_hue;
+    ofParameter <float> min_hue;
+        ofParameter <bool> reload_color;
+
 private:
     
     ofVbo vboMesh;
@@ -30,6 +35,8 @@ private:
     vector<ofFloatColor> color;
     vector<ofVec2f> tex_coord;
     ofVec3f center;
+    
+    
     
 
     
