@@ -10,6 +10,7 @@
 		04C13EEA813A786CC1D8137A /* FxaaPass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9425843AEC3118B8FDEF1B0B /* FxaaPass.cpp */; };
 		114C00B13F753E59BB0984BB /* DofPass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E837DEBFAEA1CAD833A377DF /* DofPass.cpp */; };
 		1A16B2871AF3B54A003CC3D6 /* MyVboMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A16B2851AF3B54A003CC3D6 /* MyVboMesh.cpp */; };
+		1AA27B701AF5EF8500FDC19D /* ShaderToy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AA27B6E1AF5EF8500FDC19D /* ShaderToy.cpp */; };
 		1CD33E884D9E3358252E82A1 /* ofxToggle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 907C5B5E104864A2D3A25745 /* ofxToggle.cpp */; };
 		1E615236D6D182DED6C8A8B2 /* RenderPass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54F36382628E4D0FF07206D7 /* RenderPass.cpp */; };
 		28AFD6FA9B9C885AFD9FF1C7 /* HorizontalTiltShifPass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FAF7EF26FE0FF19EA6D9419D /* HorizontalTiltShifPass.cpp */; };
@@ -125,6 +126,8 @@
 		1A16B2851AF3B54A003CC3D6 /* MyVboMesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MyVboMesh.cpp; sourceTree = "<group>"; };
 		1A16B2861AF3B54A003CC3D6 /* MyVboMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyVboMesh.h; sourceTree = "<group>"; };
 		1AA18353F9701B01731DFADF /* poppack1.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = poppack1.h; path = ../../../addons/ofxAssimpModelLoader/libs/assimp/include/Compiler/poppack1.h; sourceTree = SOURCE_ROOT; };
+		1AA27B6E1AF5EF8500FDC19D /* ShaderToy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShaderToy.cpp; sourceTree = "<group>"; };
+		1AA27B6F1AF5EF8500FDC19D /* ShaderToy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShaderToy.h; sourceTree = "<group>"; };
 		1B2B8DD25BA5CC157BEDBCF0 /* aiColor4D.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = aiColor4D.h; path = ../../../addons/ofxAssimpModelLoader/libs/assimp/include/aiColor4D.h; sourceTree = SOURCE_ROOT; };
 		1C0DA2561397A7DE0246858B /* ofxGuiGroup.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxGuiGroup.h; path = ../../../addons/ofxGui/src/ofxGuiGroup.h; sourceTree = SOURCE_ROOT; };
 		1D59890E3C752D42722D2AFA /* model3DS.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = model3DS.cpp; path = ../../../addons/ofx3DModelLoader/src/3DS/model3DS.cpp; sourceTree = SOURCE_ROOT; };
@@ -611,6 +614,8 @@
 				99B73DAA7355B62C698798A8 /* MyVBO.h */,
 				1A16B2851AF3B54A003CC3D6 /* MyVboMesh.cpp */,
 				1A16B2861AF3B54A003CC3D6 /* MyVboMesh.h */,
+				1AA27B6E1AF5EF8500FDC19D /* ShaderToy.cpp */,
+				1AA27B6F1AF5EF8500FDC19D /* ShaderToy.h */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -780,6 +785,7 @@
 				856AA354D08AB4B323081444 /* ofxBaseGui.cpp in Sources */,
 				5CBB2AB3A60F65431D7B555D /* ofxButton.cpp in Sources */,
 				B266578FC55D23BFEBC042E7 /* ofxGuiGroup.cpp in Sources */,
+				1AA27B701AF5EF8500FDC19D /* ShaderToy.cpp in Sources */,
 				483908258D00B98B4BE69F07 /* ofxLabel.cpp in Sources */,
 				F285EB3169F1566CA3D93C20 /* ofxPanel.cpp in Sources */,
 				837220E80EB56CD44AD27F2A /* ofxSlider.cpp in Sources */,

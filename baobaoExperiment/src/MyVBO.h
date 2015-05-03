@@ -19,6 +19,8 @@ public:
     void draw();
     ofParameter <float> feq;
     ofParameter <float> pow;
+    ofParameter <float> wave_density;
+    ofParameter <float> noise_density;
 private:
     
     ofVbo vboMesh;

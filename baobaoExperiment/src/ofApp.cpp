@@ -5,7 +5,7 @@ void ofApp::setup(){
     ofSetLogLevel(OF_LOG_VERBOSE);
     
     gui.setup("panel"); // most of the time you don't need a name but don't forget to call setup
-    gui.add(mode.set("mode", 0,0,2));
+    gui.add(mode.set("mode", 0,0,3));
     gui.add(pointLightColor.set("pointLight",ofColor(100,100,140),ofColor(0,0),ofColor(255,255)));
     pointLightColor.addListener(this,&ofApp::onPointLightColorChanged);
     
@@ -18,8 +18,10 @@ void ofApp::setup(){
     gui.add(useShader.set("useShader",false,true,false));
     gui.add(myVboMesh.isShaderDirty.set("ReloadVBOmesh", true, false, true));
     
-    gui.add(myVBO.pow.set("Power",1,0.1,100));
+    gui.add(myVBO.pow.set("Power",1,0.1,500));
     gui.add(myVBO.feq.set("Fequence",1,0.1,10));
+    gui.add(myVBO.wave_density.set("WaveDensity",0.005,0.0001,0.1));
+    gui.add(myVBO.noise_density.set("NoiseDensity",0.005,0.0000,0.1));
     
     gui.loadFromFile("settings.xml");
     ofFbo::Settings settings;
@@ -98,6 +100,8 @@ void ofApp::setup(){
     ofDisableArbTex();
     bumpmap.loadImage("bumps.png");
     ofEnableArbTex();
+    
+    shaderToy.setup();
 }
 
 //--------------------------------------------------------------
@@ -145,7 +149,7 @@ void ofApp::draw(){
     cam.begin();
     ofClear(0, 0, 0);
     ofPushMatrix();
-    
+    ofRotate(180, 0, 0, 1);
     switch (mode) {
         case 0:
             myVBO.draw();
@@ -154,6 +158,9 @@ void ofApp::draw(){
             myVboMesh.draw();
             break;
         case 2:
+            shaderToy.draw();
+            break;
+        case 3:
             glutSolidTeapot(ofGetWidth()*0.1);
         break;
     }

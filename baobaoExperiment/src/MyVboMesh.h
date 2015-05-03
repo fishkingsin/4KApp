@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include "ofMain.h"
 #include "ofxAssimpModelLoader.h"
+#include "ofxAutoReloadedShader.h"
 class MyVboMesh
 {
 public:
@@ -21,7 +22,7 @@ public:
         ofParameter<bool> isShaderDirty;
 private:
     ofVboMesh	mVboBox;
-    ofPtr<ofShader>	mShdInstanced;
+    ofPtr<ofxAutoReloadedShader>	mShdInstanced;
     ofTexture		mTexDepth;
     ofxAssimpModelLoader model;
 

@@ -7,7 +7,7 @@
 #include "MyVboMesh.h"
 #include "ofxGui.h"
 #include "ofxCubeMap.h"
-
+#include "ShaderToy.h"
 class ofApp : public ofBaseApp{
     
 public:
@@ -49,4 +49,6 @@ public:
     ofxAutoReloadedShader shader;
     ofxCubeMap cubemap;
     ofImage bumpmap;
+    
+    ShaderToy shaderToy;
 };

@@ -43,7 +43,7 @@ void MyVBO::setup(){
     int H_width = 0;//width*0.5;
     int H_height = 0;//height*0.5;
 
-    int step = 90;
+    int step = 30;
     
     WIDTH = width*1.0/step;
     HEIGHT = height*1.0/step;
@@ -51,7 +51,7 @@ void MyVBO::setup(){
 
     int row = 0;
     int col = 0;
-    float space = 0;
+    float space = 0.2;
     float step_back_width = space*(width/step)+width*0.5;
     float step_back_height = space*(height/step)+height*0.5;
 //    vboMesh.setMode(OF_PRIMITIVE_TRIANGLES);
@@ -97,16 +97,28 @@ void MyVBO::update(){
     for(int i = 0 ; i< total ;i+=3)
     {
         ofVec3f v1 = ofVec3f(vert[i].x,
-                vert[i].y,
-                ofSignedNoise(t, vert[i].y,vert[i].x)*pow);
+                            vert[i].y,
+                            (
+                             ofSignedNoise(t, vert[i].y*noise_density,vert[i].x*noise_density)
+                             +
+                             sin(vert[i].x*wave_density+t)+cos(vert[i].y*wave_density+t)
+                             ) *pow );
 
         ofVec3f v2 = ofVec3f(vert[i+1].x,
                              vert[i+1].y,
-                             ofSignedNoise(t, vert[i+1].y,vert[i+1].x)*pow);
+                             (
+                              ofSignedNoise(t, vert[i+1].y*noise_density,vert[i+1].x*noise_density)
+                              +
+                              sin(vert[i+1].x*wave_density+t)+cos(vert[i+1].y*wave_density+t)
+                              )*pow );
 
         ofVec3f v3 = ofVec3f(vert[i+2].x,
                              vert[i+2].y,
-                             ofSignedNoise(t, vert[i+2].y,vert[i+2].x)*pow);
+                             (
+                              ofSignedNoise(t, vert[i+2].y*noise_density,vert[i+2].x*noise_density)
+                              +
+                              sin(vert[i+2].x*wave_density+t)+cos(vert[i+2].y*wave_density+t)
+                              )*pow );
 
 //        float a = sin((count-=1.1)+ofGetElapsedTimef()+i)*10;
 //        float a2 = cos((count2+=0.07)+i)*20;//+ofGetElapsedTimef());

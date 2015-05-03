@@ -10,12 +10,23 @@
 void MyVboMesh::setup()
 {
     model.loadModel("triangle.dae");
-//    ofPlanePrimitive plane;
-//    plane.set(10, 10, 4, 4);
+    
+//    ofIcoSpherePrimitive sphere;
+//    sphere.set(10, 16);
+    
+    ofPlanePrimitive plane;
+    plane.set(10, 10, 4, 4);
+    
     ofBoxPrimitive tmpBox;
     // set the size to be 2 units.
     tmpBox.set(2);
-    mVboBox = tmpBox.getMesh();
+    
+    mVboBox = model.getMesh(0);
+    
+//    mVboBox = tmpBox.getMesh();
+    
+//    mVboBox = sphere.getMesh();
+    
 //    mVboBox = plane.getMesh();
     
     // load depth image
@@ -41,14 +52,14 @@ void MyVboMesh::update()
         // automatically as soon as we assign a new shader object to our mShdInstanced.
         
         ofLogNotice() << "Reloading Shader.";
-        mShdInstanced = ofPtr<ofShader>(new ofShader());
+        mShdInstanced = ofPtr<ofxAutoReloadedShader>(new ofxAutoReloadedShader());
         // most of the instanced drawing magic happens in the shaders:
 #ifdef USE_PROGRAMMABLE_GL
         // if we are using programmable GL, we load the GLSL version 150 shader pair.
         mShdInstanced->load("shaders/instanced.vert", "shaders/instanced.frag");
 #else
         // if we are using fixed function GL, we load the GLSL version 120 shader pair.
-        mShdInstanced->load("shaders/instanced_120.vert", "shaders/instanced_120.frag");
+        mShdInstanced->load("shaders/instanced_120");
 #endif
         GLint err = glGetError();
         if (err != GL_NO_ERROR){
