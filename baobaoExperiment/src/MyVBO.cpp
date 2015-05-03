@@ -30,9 +30,21 @@ void addFace(vector<ofVec3f> &pos,vector<ofFloatColor> &color,vector<ofVec3f> &n
 }
 
 //--------------------------------------------------------------
-void addFace(vector<ofVec3f> &pos,vector<ofFloatColor> &color,vector<ofVec3f> &normal,vector<ofVec2f> &tex_coord, ofVec3f a, ofVec3f b, ofVec3f c, ofVec3f d) {
-    addFace(pos,color,normal, tex_coord, a, b, c);
-    addFace(pos,color,normal, tex_coord, a, c, d);
+void addFace(vector<ofVec3f> &pos,vector<ofFloatColor> &color,vector<ofVec3f> &normal,vector<ofVec2f> &tex_coord, ofVec3f a, ofVec3f b, ofVec3f c, ofVec3f d , bool revert) {
+    
+    float offset_value = 1.0;
+    
+    if(revert)
+    {
+        ofVec3f offset(offset_value,offset_value,0);
+        addFace(pos,color,normal, tex_coord, a+offset, b+offset, c+offset);
+        addFace(pos,color,normal, tex_coord, a-offset, c-offset, d-offset);
+    }
+    else{
+        ofVec3f offset(-offset_value,offset_value,0);
+        addFace(pos,color,normal, tex_coord, a-offset, b-offset, c-offset);
+        addFace(pos,color,normal, tex_coord, a+offset, c+offset, d+offset);
+    }
 }
 //--------------------------------------------------------------
 void MyVBO::setup(){
@@ -74,8 +86,11 @@ void MyVBO::setup(){
                 ne = ne.getRotated(90,ofVec3f( x+step*0.5, y + step*0.5, 0), ofVec3f(0,0,1));
                 sw = sw.getRotated(90,ofVec3f( x+step*0.5, y + step*0.5, 0), ofVec3f(0,0,1));
                 se = se.getRotated(90,ofVec3f( x+step*0.5, y + step*0.5, 0), ofVec3f(0,0,1));
+                            addFace(pos,color,normal,tex_coord, nw,ne,se,sw,true);
             }
-            addFace(pos,color,normal,tex_coord, nw,ne,se,sw);
+            else{
+                            addFace(pos,color,normal,tex_coord, nw,ne,se,sw,false);
+            }
             total+=6;
             col++ ;
         }
