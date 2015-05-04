@@ -6,3 +6,4 @@ ofxCubeMap
 ofxAssimpModelLoader
 ofxGLSLMaterial
 ofxPostProcessing
+ofxGameCamera

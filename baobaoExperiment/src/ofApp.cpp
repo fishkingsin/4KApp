@@ -3,9 +3,11 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
     ofSetLogLevel(OF_LOG_VERBOSE);
-    
+    cam.setup();
+    cam.autosavePosition = true;
+    cam.loadCameraPosition();
     gui.setup("panel"); // most of the time you don't need a name but don't forget to call setup
-    gui.add(mode.set("mode", 0,0,3));
+    gui.add(mode.set("mode", 0,0,4));
     gui.add(pointLightColor.set("pointLight",ofColor(100,100,140),ofColor(0,0),ofColor(255,255)));
     pointLightColor.addListener(this,&ofApp::onPointLightColorChanged);
     
@@ -82,6 +84,7 @@ void ofApp::setup(){
     
     myVBO.setup();
     myVboMesh.setup();
+    myVbo2.setup();
     radius		= 180.f;
     center.set(ofGetWidth()*.5, ofGetHeight()*.5, 0);
     
@@ -162,9 +165,12 @@ void ofApp::draw(){
             myVboMesh.draw();
             break;
         case 2:
-            shaderToy.draw();
+            myVbo2.draw();
             break;
         case 3:
+            shaderToy.draw();
+            break;
+        case 4:
             glutSolidTeapot(ofGetWidth()*0.1);
         break;
     }

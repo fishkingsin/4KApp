@@ -8,6 +8,8 @@
 #include "ofxGui.h"
 #include "ofxCubeMap.h"
 #include "ShaderToy.h"
+#include "MyVbo2.h"
+#include "ofxGameCamera.h"
 class ofApp : public ofBaseApp{
     
 public:
@@ -27,13 +29,14 @@ public:
     void onPointLightColorChanged(ofColor& pointLightColor);
     void onSpotLightColorChanged(ofColor& spotLightColor);
     void onDirectionalLightColorChanged(ofColor& directionalLightColor);
-    ofEasyCam cam;
+    ofxGameCamera cam;
     ofLight pointLight;
     ofLight spotLight;
     ofLight directionalLight;
     ofMaterial material;
     MyVBO myVBO;
     MyVboMesh myVboMesh;
+    MyVbo2 myVbo2;
     ofFbo fbo;
     ofVec3f center;
     float radius;
