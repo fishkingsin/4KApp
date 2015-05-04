@@ -3,5 +3,7 @@ ofxGui
 ofxXmlSettings
 ofxAutoReloadedShader
 ofxCubeMap
-ofxKinect
-ofxOpenCv
+ofxAssimpModelLoader
+ofxGLSLMaterial
+ofxPostProcessing
+ofxGameCamera
