@@ -10,6 +10,7 @@
 #include "ShaderToy.h"
 #include "MyVbo2.h"
 #include "ofxGameCamera.h"
+#include "ofxPostProcessing.h"
 class ofApp : public ofBaseApp{
     
 public:
@@ -37,7 +38,7 @@ public:
     MyVBO myVBO;
     MyVboMesh myVboMesh;
     MyVbo2 myVbo2;
-    ofFbo fbo;
+//    ofFbo fbo;
     ofVec3f center;
     float radius;
     ofxPanel gui;
@@ -54,4 +55,6 @@ public:
     ofImage bumpmap;
     
     ShaderToy shaderToy;
+    
+    ofxPostProcessing post;
 };

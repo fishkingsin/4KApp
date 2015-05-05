@@ -27,13 +27,13 @@ void ofApp::setup(){
     gui.add(myVBO.min_hue.set("MinHue",0,0,1.0));
     gui.add(myVBO.max_hue.set("MaxHue",0,0,1.0));
         gui.add(myVBO.reload_color.set("ReloadColor",0,0,1.0));
-    gui.loadFromFile("settings.xml");
-    ofFbo::Settings settings;
+   
+//    ofFbo::Settings settings;
 //    settings.depthStencilAsTexture = true;
 
-    settings.width = ofGetWidth();
-    settings.height = ofGetHeight();
-    fbo.allocate(settings);
+//    settings.width = ofGetWidth();
+//    settings.height = ofGetHeight();
+//    fbo.allocate(settings);
 
     ofSetVerticalSync(true);
     ofSetFrameRate(60);
@@ -108,6 +108,20 @@ void ofApp::setup(){
     
     shaderToy.setup();
     cam.setVFlip(true);
+    
+    post.init(ofGetWidth(), ofGetHeight());
+    post.createPass<FxaaPass>()->setEnabled(false);
+    post.createPass<BloomPass>()->setEnabled(false);
+    post.createPass<DofPass>()->setEnabled(true);
+    post.createPass<KaleidoscopePass>()->setEnabled(false);
+    post.createPass<NoiseWarpPass>()->setEnabled(false);
+    post.createPass<PixelatePass>()->setEnabled(false);
+    post.createPass<EdgePass>()->setEnabled(false);
+    post.createPass<VerticalTiltShifPass>()->setEnabled(false);
+    post.createPass<GodRaysPass>()->setEnabled(false);
+
+    
+     gui.loadFromFile("settings.xml");
 }
 
 //--------------------------------------------------------------
@@ -134,9 +148,15 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
     ofBackground(0);
+    glPushAttrib(GL_ENABLE_BIT);
+    
+    // setup gl state
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
+    
     if(useFbo)
     {
-        fbo.begin();
+        post.begin();
     }
     ofEnableLighting();
 
@@ -181,17 +201,21 @@ void ofApp::draw(){
         shader.end();
     }
     cubemap.unbind();
-    glDisable(GL_DEPTH_TEST);
 
     material.end();
-    // turn off lighting //
-    ofDisableLighting();
     if(useFbo)
     {
-        fbo.end();
-    
-        fbo.draw(0,0,ofGetWidth(),ofGetHeight());
+        post.end();
     }
+    // turn off lighting //
+    ofDisableLighting();
+    glDisable(GL_DEPTH_TEST);
+    glPopAttrib();
+
+//    if(useFbo)
+//    {
+//        fbo.draw(0,0,ofGetWidth(),ofGetHeight());
+//    }
     if(!isHiddenGui)
     {
         gui.draw();
@@ -241,7 +265,7 @@ void ofApp::mouseReleased(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::windowResized(int w, int h){
-    //    fbo.allocate(w, h);
+        post.init(w,h);
 }
 
 //--------------------------------------------------------------

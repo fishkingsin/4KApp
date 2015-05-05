@@ -7,7 +7,7 @@
 <mode>0</mode>
 	<useShader>1</useShader>
 	<ReloadVBOmesh>1</ReloadVBOmesh>
-<useFbo>0</useFbo>
+<useFbo>1</useFbo>
 	<Power>137.573</Power>
 	<Fequence>0.199</Fequence>
 <Divider>0.001</Divider>
