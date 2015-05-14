@@ -173,7 +173,7 @@ void MyVBO::draw(){
     
     for(int i = 0 ; i< total ;i+=3)
     {
-        vboMesh.draw(GL_TRIANGLE_STRIP, i,3);
+        vboMesh.draw(GL_LINE_LOOP, i,3);
     }
     
     vboMesh.unbind();

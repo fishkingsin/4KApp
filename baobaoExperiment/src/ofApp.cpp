@@ -152,7 +152,7 @@ void ofApp::draw(){
     
     // setup gl state
     glEnable(GL_DEPTH_TEST);
-    glEnable(GL_CULL_FACE);
+//    glEnable(GL_CULL_FACE);
     
     if(useFbo)
     {

@@ -7,14 +7,14 @@
 <mode>0</mode>
 	<useShader>1</useShader>
 	<ReloadVBOmesh>1</ReloadVBOmesh>
-<useFbo>1</useFbo>
+<useFbo>0</useFbo>
 	<Power>137.573</Power>
 	<Fequence>0.199</Fequence>
 <Divider>0.001</Divider>
 	<NoiseDivider>0.003475</NoiseDivider>
 <WaveDensity>0.0001</WaveDensity>
 	<NoiseDensity>0.003</NoiseDensity>
-<MinHue>0.67</MinHue>
-	<MaxHue>0.71</MaxHue>
+<MinHue>0.25</MinHue>
+	<MaxHue>0.25</MaxHue>
 	<ReloadColor>0</ReloadColor>
 </panel>

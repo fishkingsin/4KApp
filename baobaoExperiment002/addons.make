@@ -1,0 +1,9 @@
+ofx3DModelLoader
+ofxGui
+ofxXmlSettings
+ofxAutoReloadedShader
+ofxCubeMap
+ofxAssimpModelLoader
+ofxGLSLMaterial
+ofxPostProcessing
+ofxGameCamera
